@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Energia wiązania – dwa atomy</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #111111;
+    --muted: #666666;
+    --line: #d9d9d9;
+    --blue: #2f6fed;
+    --red: #d64b4b;
+    --green: #2d8f57;
+    --orange: #d98324;
+    --panel: #fafafa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+  }
+  .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 12px 16px 16px;
+  }
+  .title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 118px;
+    gap: 12px 14px;
+    align-items: start;
+  }
+  .leftCol {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    gap: 8px;
+    align-content: start;
+  }
+  .panel {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--panel);
+    padding: 10px;
+  }
+  .panel h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  #sceneCanvas,
+  #graphCanvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #fff;
+    border-radius: 12px;
+  }
+  .sliderPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    position: sticky;
+    top: 12px;
+  }
+  .sliderLabel {
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .sliderZone {
+    position: relative;
+    width: 68px;
+    height: 534px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background:
+      linear-gradient(to bottom,
+        #f2f2f2 0%,
+        #f2f2f2 28%,
+        #e8f6ec 28%,
+        #e8f6ec 72%,
+        #edf2ff 72%,
+        #edf2ff 76%,
+        #fdecec 76%,
+        #fdecec 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .eqMark {
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    height: 2px;
+    background: var(--blue);
+    bottom: 26%;
+    opacity: 0.9;
+  }
+  input[type="range"].vertical {
+    -webkit-appearance: slider-vertical;
+    appearance: slider-vertical;
+    width: 34px;
+    height: 498px;
+    background: transparent;
+  }
+  .sliderEnds {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .sliderLegend {
+    width: 100%;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.3;
+    text-align: center;
+  }
+  .comment {
+    width: 100%;
+    justify-self: start;
+    margin-top: 0;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+  .formula {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .legendRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .legendItem { display: flex; align-items: center; gap: 6px; }
+  .swatch { width: 18px; height: 3px; border-radius: 2px; }
+  .mono { font-family: "DejaVu Sans Mono", Consolas, monospace; }
+  @media (max-width: 920px) {
+    .main {
+      grid-template-columns: 1fr;
+    }
+    .sliderPanel { position: static; }
+    .sliderZone { height: 260px; width: 100%; max-width: 340px; }
+    input[type="range"].vertical {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 300px;
+      height: 34px;
+      transform: none;
+      writing-mode: horizontal-tb;
+    }
+    .eqMark { display: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">Energia wiązania – dwa atomy</div>
+    <div class="subtitle">Powolna zmiana odległości: zaniedbujemy zmianę energii kinetycznej, więc <span class="mono">ΔU = W<sub>zewn</sub></span>.</div>
+
+    <div class="main">
+      <div class="leftCol">
+        <div class="panel">
+          <canvas id="sceneCanvas" width="1040" height="240"></canvas>
+        </div>
+        <div class="panel">
+          <h3>Wykres energii potencjalnej <span class="mono">U(r)</span></h3>
+          <canvas id="graphCanvas" width="1040" height="250"></canvas>
+        </div>
+        <div class="comment">
+          <div class="formula mono">ΔU = U<sub>k</sub> - U<sub>p</sub>(=0) = U<sub>k</sub> = W<sub>zewn</sub></div>
+          <div id="commentText">Atomy są jeszcze tak daleko od siebie, że praktycznie nie oddziałują. Energia potencjalna jest równa zero.</div>
+          <div class="legendRow">
+            <div class="legendItem"><span class="swatch" style="background:#2f6fed"></span>siła oddziaływania</div>
+            <div class="legendItem"><span class="swatch" style="background:#d98324"></span>siła zewnętrzna równoważąca</div>
+            <div class="legendItem"><span class="swatch" style="background:#2d8f57"></span>kierunek ruchu przy ostatnim przesunięciu</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel sliderPanel">
+        <div class="sliderLabel">Odległość atomów</div>
+        <div class="sliderEnds"><span>duża</span></div>
+        <div class="sliderZone">
+          <div class="eqMark" title="odległość równowagi"></div>
+          <input id="distanceSlider" class="vertical" type="range" min="0" max="1000" value="1000" step="1" />
+        </div>
+        <div class="sliderEnds"><span>mała</span></div>
+        <div class="sliderLegend">szare: brak oddziaływania<br>zielone: przyciąganie<br>niebieskie: równowaga<br>czerwone: odpychanie</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const sceneCanvas = document.getElementById('sceneCanvas');
+  const graphCanvas = document.getElementById('graphCanvas');
+  const sctx = sceneCanvas.getContext('2d');
+  const gctx = graphCanvas.getContext('2d');
+  const slider = document.getElementById('distanceSlider');
+  const commentText = document.getElementById('commentText');
+
+  const cfg = {
+    rMin: 0.86,
+    rMax: 1.95,
+    rEq: 1.00,
+    rCut: 1.68,
+    epsilon: 1.0,
+    repulsionHeight: 2.6,
+    atomRadius: 14,
+    lineCenterY: 118,
+    leftX: 250,
+    scalePx: 250,
+    graphYMin: -1.15,
+    graphYMax: 2.3
+  };
+
+  let prevR = sliderToR(+slider.value);
+  let motion = 0;
+  let motionStopTimer = null;
+
+  function sliderToR(v) {
+    return cfg.rMin + (v / 1000) * (cfg.rMax - cfg.rMin);
+  }
+
+  function smoothstep01(x) {
+    return x * x * (3 - 2 * x);
+  }
+
+  function potential(r) {
+    if (r >= cfg.rCut) return 0;
+    if (r >= cfg.rEq) {
+      const L = cfg.rCut - cfg.rEq;
+      const x = (cfg.rCut - r) / L;
+      return -cfg.epsilon * smoothstep01(x);
+    }
+    const x = (cfg.rEq - r) / (cfg.rEq - cfg.rMin);
+    return -cfg.epsilon + cfg.repulsionHeight * x * x * x;
+  }
+
+  function forceOnRight(r) {
+    if (r >= cfg.rCut) return 0;
+    if (r >= cfg.rEq) {
+      const L = cfg.rCut - cfg.rEq;
+      const x = (cfg.rCut - r) / L;
+      const dsdx = 6 * x * (1 - x);
+      return -(cfg.epsilon * dsdx) / L;
+    }
+    const x = (cfg.rEq - r) / (cfg.rEq - cfg.rMin);
+    return (3 * cfg.repulsionHeight * x * x) / (cfg.rEq - cfg.rMin);
+  }
+
+  function arrow(ctx, x1, y1, x2, y2, color, width = 3) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const len = Math.hypot(dx, dy);
+    if (len < 1) return;
+    const ux = dx / len;
+    const uy = dy / len;
+    const head = 10;
+    ctx.save();
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = width;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x2, y2);
+    ctx.lineTo(x2 - head * ux + 5 * uy, y2 - head * uy - 5 * ux);
+    ctx.lineTo(x2 - head * ux - 5 * uy, y2 - head * uy + 5 * ux);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawAtom(ctx, x, y, r, fill, label) {
+    ctx.save();
+    ctx.fillStyle = fill;
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(255,255,255,0.45)';
+    ctx.arc(x - r * 0.28, y - r * 0.28, r * 0.24, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = '#111';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, x, y + r + 18);
+    ctx.restore();
+  }
+
+  function drawScene(r) {
+    const w = sceneCanvas.width, h = sceneCanvas.height;
+    sctx.clearRect(0, 0, w, h);
+
+    const y = cfg.lineCenterY;
+    const leftX = cfg.leftX;
+    const rightX = leftX + r * cfg.scalePx;
+
+    sctx.save();
+    sctx.strokeStyle = '#bfbfbf';
+    sctx.lineWidth = 2;
+    sctx.beginPath();
+    sctx.moveTo(40, y);
+    sctx.lineTo(w - 40, y);
+    sctx.stroke();
+    sctx.fillStyle = '#777';
+    sctx.font = '22px Arial';
+    sctx.textAlign = 'center';
+    sctx.fillText('∞', 24, y + 7);
+    sctx.fillText('∞', w - 24, y + 7);
+    sctx.restore();
+
+    sctx.save();
+    sctx.strokeStyle = '#888';
+    sctx.setLineDash([6, 6]);
+    sctx.beginPath();
+    sctx.moveTo(leftX, y + 50);
+    sctx.lineTo(rightX, y + 50);
+    sctx.stroke();
+    sctx.setLineDash([]);
+    sctx.fillStyle = '#666';
+    sctx.font = '15px Arial';
+    sctx.textAlign = 'center';
+    sctx.fillText('odległość', (leftX + rightX) / 2, y + 69);
+    sctx.restore();
+
+    drawAtom(sctx, leftX, y, cfg.atomRadius, '#d8dde8', 'atom');
+    drawAtom(sctx, rightX, y, cfg.atomRadius, '#d8dde8', 'atom');
+
+    const F = forceOnRight(r);
+    const hasInteraction = Math.abs(F) > 1e-6;
+    if (hasInteraction) {
+      const mag = Math.min(70, 18 + 26 * Math.min(1.5, Math.abs(F)));
+      const leftForceDir = -Math.sign(F);
+      const rightForceDir = Math.sign(F);
+
+      arrow(sctx,
+        leftX + leftForceDir * (cfg.atomRadius + 8), y - 26,
+        leftX + leftForceDir * (cfg.atomRadius + 8 + mag), y - 26,
+        '#2f6fed', 3);
+      arrow(sctx,
+        rightX + rightForceDir * (cfg.atomRadius + 8), y - 26,
+        rightX + rightForceDir * (cfg.atomRadius + 8 + mag), y - 26,
+        '#2f6fed', 3);
+
+      sctx.save();
+      sctx.fillStyle = '#2f6fed';
+      sctx.font = '14px Arial';
+      sctx.textAlign = 'center';
+      sctx.fillText('F oddz', leftX + leftForceDir * (cfg.atomRadius + 12 + mag / 2), y - 36);
+      sctx.fillText('F oddz', rightX + rightForceDir * (cfg.atomRadius + 12 + mag / 2), y - 36);
+      sctx.restore();
+
+      arrow(sctx,
+        leftX - leftForceDir * (cfg.atomRadius + 8), y + 26,
+        leftX - leftForceDir * (cfg.atomRadius + 8 + mag), y + 26,
+        '#d98324', 3);
+      arrow(sctx,
+        rightX - rightForceDir * (cfg.atomRadius + 8), y + 26,
+        rightX - rightForceDir * (cfg.atomRadius + 8 + mag), y + 26,
+        '#d98324', 3);
+
+      sctx.save();
+      sctx.fillStyle = '#d98324';
+      sctx.font = '14px Arial';
+      sctx.textAlign = 'center';
+      sctx.fillText('F zewn', leftX - leftForceDir * (cfg.atomRadius + 12 + mag / 2), y + 47);
+      sctx.fillText('F zewn', rightX - rightForceDir * (cfg.atomRadius + 12 + mag / 2), y + 47);
+      sctx.restore();
+    }
+
+    if (motion !== 0) {
+      const inward = motion === -1;
+      const leftMoveDir = inward ? 1 : -1;
+      const rightMoveDir = inward ? -1 : 1;
+      arrow(sctx, leftX, y - 70, leftX + leftMoveDir * 44, y - 70, '#2d8f57', 3);
+      arrow(sctx, rightX, y - 70, rightX + rightMoveDir * 44, y - 70, '#2d8f57', 3);
+      sctx.save();
+      sctx.fillStyle = '#2d8f57';
+      sctx.font = '13px Arial';
+      sctx.textAlign = 'center';
+      sctx.fillText('ruch', leftX + leftMoveDir * 26, y - 80);
+      sctx.fillText('ruch', rightX + rightMoveDir * 26, y - 80);
+      sctx.restore();
+    }
+
+    sctx.save();
+    sctx.fillStyle = '#666';
+    sctx.font = '15px Arial';
+    sctx.textAlign = 'left';
+    sctx.fillText('Dla bardzo dużej odległości przyjmujemy U ≈ 0.', 28, 24);
+    sctx.restore();
+  }
+
+  function drawGraph(r) {
+    const w = graphCanvas.width, h = graphCanvas.height;
+    gctx.clearRect(0, 0, w, h);
+    const pad = { left: 64, right: 22, top: 22, bottom: 44 };
+    const plotW = w - pad.left - pad.right;
+    const plotH = h - pad.top - pad.bottom;
+    const xFromR = (rv) => pad.left + (rv - cfg.rMin) / (cfg.rMax - cfg.rMin) * plotW;
+    const yFromU = (u) => pad.top + (cfg.graphYMax - u) / (cfg.graphYMax - cfg.graphYMin) * plotH;
+
+    gctx.save();
+    gctx.strokeStyle = '#444';
+    gctx.lineWidth = 1.5;
+    gctx.beginPath();
+    gctx.moveTo(pad.left, pad.top);
+    gctx.lineTo(pad.left, h - pad.bottom);
+    gctx.lineTo(w - pad.right, h - pad.bottom);
+    gctx.stroke();
+    gctx.restore();
+
+    const zeroY = yFromU(0);
+    gctx.save();
+    gctx.strokeStyle = '#999';
+    gctx.setLineDash([5,5]);
+    gctx.beginPath();
+    gctx.moveTo(pad.left, zeroY);
+    gctx.lineTo(w - pad.right, zeroY);
+    gctx.stroke();
+    gctx.setLineDash([]);
+    gctx.fillStyle = '#666';
+    gctx.font = '13px Arial';
+    gctx.fillText('U = 0', pad.left + 8, zeroY - 8);
+    gctx.restore();
+
+    gctx.save();
+    gctx.strokeStyle = '#111';
+    gctx.lineWidth = 2.4;
+    gctx.beginPath();
+    const steps = 500;
+    for (let i = 0; i <= steps; i++) {
+      const rr = cfg.rMin + (i / steps) * (cfg.rMax - cfg.rMin);
+      const uu = Math.max(cfg.graphYMin - 0.2, Math.min(cfg.graphYMax + 0.2, potential(rr)));
+      const x = xFromR(rr);
+      const y = yFromU(uu);
+      if (i === 0) gctx.moveTo(x, y);
+      else gctx.lineTo(x, y);
+    }
+    gctx.stroke();
+    gctx.restore();
+
+    const eqX = xFromR(cfg.rEq);
+    gctx.save();
+    gctx.strokeStyle = '#2f6fed';
+    gctx.setLineDash([4,4]);
+    gctx.beginPath();
+    gctx.moveTo(eqX, pad.top);
+    gctx.lineTo(eqX, h - pad.bottom);
+    gctx.stroke();
+    gctx.setLineDash([]);
+    gctx.fillStyle = '#2f6fed';
+    gctx.font = '13px Arial';
+    gctx.textAlign = 'center';
+    gctx.fillText('odległość równowagi', eqX, pad.top + 16);
+    gctx.restore();
+
+    const px = xFromR(r);
+    const py = yFromU(potential(r));
+    gctx.save();
+    gctx.fillStyle = '#d64b4b';
+    gctx.strokeStyle = '#111';
+    gctx.lineWidth = 1.5;
+    gctx.beginPath();
+    gctx.arc(px, py, 6, 0, Math.PI * 2);
+    gctx.fill();
+    gctx.stroke();
+    gctx.restore();
+
+    gctx.save();
+    gctx.fillStyle = '#111';
+    gctx.font = '15px Arial';
+    gctx.textAlign = 'center';
+    gctx.fillText('odległość r', pad.left + plotW / 2, h - 12);
+    gctx.save();
+    gctx.translate(18, pad.top + plotH / 2);
+    gctx.rotate(-Math.PI / 2);
+    gctx.fillText('energia potencjalna U', 0, 0);
+    gctx.restore();
+    gctx.fillText('mała', pad.left + 12, h - 26);
+    gctx.fillText('duża', w - pad.right - 16, h - 26);
+    gctx.restore();
+  }
+
+  function updateText(r) {
+    let zone = '';
+    if (r >= cfg.rCut - 0.02) zone = 'far';
+    else if (Math.abs(r - cfg.rEq) < 0.02) zone = 'equilibrium';
+    else if (r > cfg.rEq) zone = 'attraction';
+    else zone = 'repulsion';
+
+    let comment = '';
+    if (zone === 'far') {
+      comment = 'Atomy są jeszcze tak daleko od siebie, że praktycznie nie oddziałują. Energia potencjalna jest równa zero.';
+    } else if (zone === 'equilibrium') {
+      comment = 'To najtrwalsze położenie układu. Siły prawie się równoważą, a energia potencjalna osiąga minimum.';
+    } else if (zone === 'attraction') {
+      comment = 'Atomy przyciągają się. Siły zewnętrzne wykonują pracę ujemną, więc energia potencjalna maleje i jest mniejsza od zera.';
+    } else {
+      comment = 'Atomy są już zbyt blisko i silnie się odpychają. Dalsze zbliżanie wymaga dodatniej pracy sił zewnętrznych, więc energia potencjalna rośnie.';
+    }
+    commentText.textContent = comment;
+  }
+
+  function render() {
+    const r = sliderToR(+slider.value);
+    drawScene(r);
+    drawGraph(r);
+    updateText(r);
+  }
+
+  slider.addEventListener('input', () => {
+    const r = sliderToR(+slider.value);
+    if (Math.abs(r - prevR) < 1e-6) motion = 0;
+    else motion = r < prevR ? -1 : 1;
+    render();
+    prevR = r;
+
+    if (motionStopTimer) clearTimeout(motionStopTimer);
+    motionStopTimer = setTimeout(() => {
+      motion = 0;
+      render();
+    }, 140);
+  });
+
+  slider.addEventListener('change', () => {
+    if (motionStopTimer) clearTimeout(motionStopTimer);
+    motion = 0;
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
