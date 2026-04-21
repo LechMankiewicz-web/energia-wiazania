@@ -92,12 +92,12 @@
     background:
       linear-gradient(to bottom,
         #f2f2f2 0%,
-        #f2f2f2 28%,
-        #e8f6ec 28%,
-        #e8f6ec 72%,
-        #edf2ff 72%,
-        #edf2ff 76%,
-        #fdecec 76%,
+        #f2f2f2 var(--cutStart, 26%),
+        #e8f6ec var(--cutStart, 26%),
+        #e8f6ec var(--eqBandStart, 84%),
+        #edf2ff var(--eqBandStart, 84%),
+        #edf2ff var(--eqBandEnd, 86%),
+        #fdecec var(--eqBandEnd, 86%),
         #fdecec 100%);
     display: flex;
     align-items: center;
@@ -109,7 +109,8 @@
     right: 6px;
     height: 2px;
     background: var(--blue);
-    bottom: 26%;
+    top: var(--eqMarkTop, 85%);
+    transform: translateY(-50%);
     opacity: 0.9;
   }
   input[type="range"].vertical {
@@ -211,7 +212,7 @@
           <input id="distanceSlider" class="vertical" type="range" min="0" max="1000" value="1000" step="1" />
         </div>
         <div class="sliderEnds"><span>mała</span></div>
-        <div class="sliderLegend">szare: brak oddziaływania<br>zielone: przyciąganie<br>niebieskie: równowaga<br>czerwone: odpychanie</div>
+        <div class="sliderLegend">bezbarwne: brak oddziaływania<br>zielone: przyciąganie<br>niebieskie: równowaga<br>czerwone: odpychanie</div>
       </div>
     </div>
   </div>
@@ -251,6 +252,32 @@
 
   function smoothstep01(x) {
     return x * x * (3 - 2 * x);
+  }
+
+  function updateSliderZoneAlignment() {
+    const zone = document.querySelector('.sliderZone');
+    const input = slider;
+    if (!zone || !input) return;
+
+    const zoneH = zone.clientHeight;
+    const inputH = input.clientHeight;
+    const topMargin = (zoneH - inputH) / 2;
+
+    const toTopPx = (r) => {
+      const v = (r - cfg.rMin) / (cfg.rMax - cfg.rMin) * 1000;
+      return topMargin + (1 - v / 1000) * inputH;
+    };
+
+    const yEq = toTopPx(cfg.rEq);
+    const yCut = toTopPx(cfg.rCut);
+
+    const eqBandHalf = 4; // px
+    const pct = (px) => (100 * px / zoneH).toFixed(3) + '%';
+
+    zone.style.setProperty('--cutStart', pct(yCut));
+    zone.style.setProperty('--eqBandStart', pct(yEq - eqBandHalf));
+    zone.style.setProperty('--eqBandEnd', pct(yEq + eqBandHalf));
+    zone.style.setProperty('--eqMarkTop', pct(yEq));
   }
 
   function potential(r) {
@@ -565,6 +592,12 @@
     render();
   });
 
+  window.addEventListener('resize', () => {
+    updateSliderZoneAlignment();
+    render();
+  });
+
+  updateSliderZoneAlignment();
   render();
 })();
 </script>
