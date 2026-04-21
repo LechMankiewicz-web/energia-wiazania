@@ -193,7 +193,7 @@
           <canvas id="graphCanvas" width="1040" height="250"></canvas>
         </div>
         <div class="comment">
-          <div class="formula mono">ΔU = U<sub>k</sub> - U<sub>p</sub>(=0) = U<sub>k</sub> = W<sub>zewn</sub></div>
+          <div class="formula mono">ΔU = W<sub>zewn</sub></div>
           <div id="commentText">Atomy są jeszcze tak daleko od siebie, że praktycznie nie oddziałują. Energia potencjalna jest równa zero.</div>
           <div class="legendRow">
             <div class="legendItem"><span class="swatch" style="background:#2f6fed"></span>siła oddziaływania</div>
@@ -232,6 +232,7 @@
     rCut: 1.68,
     epsilon: 1.0,
     repulsionHeight: 2.6,
+    attractionSharpness: 2.2,
     atomRadius: 14,
     lineCenterY: 118,
     leftX: 250,
@@ -256,23 +257,25 @@
     if (r >= cfg.rCut) return 0;
     if (r >= cfg.rEq) {
       const L = cfg.rCut - cfg.rEq;
-      const x = (cfg.rCut - r) / L;
-      return -cfg.epsilon * smoothstep01(x);
+      const s = (r - cfg.rEq) / L;
+      const y = 1 - smoothstep01(s);
+      return -cfg.epsilon * Math.pow(y, cfg.attractionSharpness);
     }
     const x = (cfg.rEq - r) / (cfg.rEq - cfg.rMin);
-    return -cfg.epsilon + cfg.repulsionHeight * x * x * x;
+    return -cfg.epsilon + cfg.repulsionHeight * x * x;
   }
 
   function forceOnRight(r) {
     if (r >= cfg.rCut) return 0;
     if (r >= cfg.rEq) {
       const L = cfg.rCut - cfg.rEq;
-      const x = (cfg.rCut - r) / L;
-      const dsdx = 6 * x * (1 - x);
-      return -(cfg.epsilon * dsdx) / L;
+      const s = (r - cfg.rEq) / L;
+      const y = 1 - smoothstep01(s);
+      const dSds = 6 * s * (1 - s);
+      return -(cfg.epsilon * cfg.attractionSharpness * Math.pow(Math.max(y, 0), cfg.attractionSharpness - 1) * dSds) / L;
     }
     const x = (cfg.rEq - r) / (cfg.rEq - cfg.rMin);
-    return (3 * cfg.repulsionHeight * x * x) / (cfg.rEq - cfg.rMin);
+    return (2 * cfg.repulsionHeight * x) / (cfg.rEq - cfg.rMin);
   }
 
   function arrow(ctx, x1, y1, x2, y2, color, width = 3) {
