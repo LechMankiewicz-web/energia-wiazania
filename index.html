@@ -177,10 +177,98 @@
     }
     .eqMark { display: none; }
   }
+
+  /* Druga karta aplikacji: swobodny ruch przy ustalonej energii całkowitej. */
+  [hidden] { display: none !important; }
+  .tabs { display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 15px; }
+  .tabButton { cursor:pointer; border:1px solid #cbd5e1; background:#f8fafc; color:#334155;
+    border-radius:12px; padding:11px 17px; font-weight:700; font-size:15px; }
+  .tabButton[aria-selected="true"] { background:#eaf1ff; color:#164ac0; border-color:#86a9ff; }
+  .tabButton:focus-visible,.motionButton:focus-visible,.motionEnergyInput:focus-visible {outline:3px solid #6496fb;outline-offset:2px}
+  .motionPage .subtitle { line-height:1.4; }
+  .motionLayout {display:grid; grid-template-columns:minmax(0,1fr) 260px; gap:12px; align-items:start;}
+  .motionColumn {display:grid;gap:9px;min-width:0;}
+  .motionTools {display:grid;gap:12px;align-content:start;}
+  .motionCanvas {display:block;width:100%;height:auto;background:white;border-radius:11px;}
+  .motionGraphTitle { margin:0 0 7px; font-size:15px;font-weight:700;}
+  .motionCaption {font-size:13px;color:#525f71;margin:8px 4px 0;line-height:1.43;}
+  .motionButton { border:1px solid #cbd5e1; background:white; color:#233147; border-radius:10px;
+    padding:8px 10px; font-size:14px;font-weight:700;cursor:pointer; }
+  .motionButton:hover {border-color:#6590df;}
+  .motionButton.primary {background:#2f6fed;color:#fff;border-color:#2f6fed;}
+  .motionButton.active {background:#eaf1ff;color:#174ec8;border-color:#6590df;}
+  .motionButton:disabled {opacity:.45;cursor:not-allowed;}
+  .motionControlsRow {display:flex;flex-wrap:wrap;gap:6px;}
+  .motionEnergyInput {width:100%;accent-color:#d98324;margin:9px 0 5px;}
+  .motionEnergyNow {font-size:27px;font-weight:750;color:#b85e1e;font-variant-numeric:tabular-nums;}
+  .motionEnergyEnds {display:flex;justify-content:space-between;font-size:11px;color:#64748b;}
+  .motionSmall {font-size:12px;line-height:1.43;color:#5b6778;}
+  .motionExplanation {padding:11px 12px;background:#fff;border:1px solid #d9d9d9;border-radius:11px;
+    font-size:14px;line-height:1.45;min-height:70px;}
+  .motionState {font-size:15px;font-weight:700;margin-bottom:3px;}
+  .motionMetrics {display:grid;gap:6px;}
+  .motionMetric {display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e6e9ee;
+    padding:4px 0;gap:5px;font-size:13px;}
+  .motionMetric strong {font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .motionMetric.kinetic strong {color:#24784d;}
+  .motionMetric.potential strong {color:#c45548;}
+  .motionMetric.total strong {color:#bd691e;}
+  .motionMetric.binding strong {color:#154bb0;}
+  .motionHeaderCaption { font-size:13px;color:#475569; margin:0 0 3px; line-height:1.4; }
+  .motionPresets {display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+  .motionPresets .motionButton {font-size:12px;padding:8px 5px;}
+  .motionFooter {margin-top:9px;display:flex;gap:15px;flex-wrap:wrap;align-items:center;font-size:12px;color:#475569;}
+  @media (max-width: 610px) {.motionColumn>.panel {overflow-x:auto;}.motionCanvas{min-width:790px;}}
+  .motionSwatch {display:inline-block;width:15px;height:4px;border-radius:2px;margin-right:4px;vertical-align:middle;}
+  @media (max-width: 970px) {.motionLayout{grid-template-columns:1fr;}.motionTools{grid-template-columns:repeat(2,minmax(0,1fr));}.motionTools>div:last-child{grid-column:1/-1;}}
+  @media (max-width: 610px) {.motionTools{grid-template-columns:1fr;}.motionTools>div:last-child{grid-column:auto;}.tabButton{width:100%;}}
+
+  /* Karta trzecia: kwantowe stany drgań i nieradiacyjna wymiana energii. */
+  .quantumPage .subtitle {line-height:1.48;max-width:1120px;}
+  .quantumLayout {display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:12px;align-items:start;}
+  .quantumColumn {display:grid;gap:10px;min-width:0;}
+  .quantumTools {display:grid;gap:11px;align-content:start;}
+  .quantumCanvas {display:block;width:100%;height:auto;background:#fff;border-radius:11px;cursor:crosshair;}
+  .quantumPanelNote {font-size:13px;color:#526075;line-height:1.5;margin:7px 3px 0;}
+  .quantumLegend {display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:#445268;margin-top:8px;line-height:1.3;}
+  .quantumBadge {font-size:13px;font-weight:700;color:#245fbf;letter-spacing:.04em;}
+  .quantumSelected {font-size:23px;color:#1d4fbb;font-weight:750;line-height:1.2;margin-top:4px;}
+  .quantumNumber {font-size:16px;font-weight:700;color:#334155;font-variant-numeric:tabular-nums;margin-top:3px;}
+  .quantumControlsRow {display:flex;gap:6px;flex-wrap:wrap;margin:11px 0 6px;}
+  .quantumButton {background:white;border:1px solid #cbd5e1;border-radius:10px;color:#24324c;
+    font-size:13px;font-weight:700;cursor:pointer;padding:9px 9px;}
+  .quantumButton:hover {border-color:#7195d5;background:#f7faff;}
+  .quantumButton:disabled {opacity:.45;cursor:not-allowed;}
+  .quantumButton:focus-visible,.quantumLevelButton:focus-visible {outline:3px solid #6496fb;outline-offset:2px;}
+  .quantumLevels {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin-top:8px;}
+  .quantumLevelButton {border:1px solid #d6dfea;border-radius:8px;background:#f9fbff;
+    padding:7px 5px;font-size:13px;cursor:pointer;color:#35455a;font-weight:650;}
+  .quantumLevelButton.current {background:#e5efff;color:#184bb1;border-color:#6496fb;}
+  .quantumLevelButton.previous {border-color:#b6976b;}
+  .quantumLevelButton:hover {background:#eaf1ff;}
+  .quantumNoteStrong {font-size:15px;color:#2d3f58;font-weight:750;margin-bottom:5px;}
+  .quantumExchange {font-size:14px;line-height:1.5;background:#fff;border:1px solid #cfd9e5;border-radius:10px;
+    padding:10px;margin-top:9px;color:#1d3554;min-height:88px;}
+  .quantumSubtle {font-size:12px;line-height:1.45;color:#667488;}
+  .quantumMetric {display:flex;align-items:flex-start;justify-content:space-between;gap:10px;font-size:13px;
+    padding:6px 0;border-bottom:1px solid #e7e9ee;}
+  .quantumMetric strong {white-space:nowrap;color:#31527a;font-variant-numeric:tabular-nums;font-size:14px;}
+  .quantumNonRad {background:#eef6fb;border:1px solid #c4ddec;border-radius:10px;padding:12px 13px;
+    font-size:14px;line-height:1.48;color:#24435f;}
+  .quantumNonRad strong {color:#184f7e;}
+  @media (max-width:980px) {.quantumLayout{grid-template-columns:1fr}.quantumTools{grid-template-columns:repeat(2,minmax(0,1fr))}.quantumTools>.panel:first-child{grid-column:1/-1}}
+  @media (max-width:610px) {.quantumColumn>.panel{overflow-x:auto}.quantumCanvas{min-width:760px}.quantumTools{grid-template-columns:1fr}.quantumTools>.panel:first-child{grid-column:auto}}
 </style>
 </head>
 <body>
   <div class="wrap">
+<div class="tabs" role="tablist" aria-label="Widoki aplikacji">
+  <button class="tabButton" id="tabOriginal" type="button" role="tab" aria-selected="true" aria-controls="pageOriginal">1. Dlaczego atomy się wiążą?</button>
+  <button class="tabButton" id="tabEnergy" type="button" role="tab" aria-selected="false" aria-controls="pageEnergy">2. Ruch i bilans energii</button>
+  <button class="tabButton" id="tabQuantum" type="button" role="tab" aria-selected="false" aria-controls="pageQuantum">3. Poziomy kwantowe</button>
+</div>
+<section id="pageOriginal" role="tabpanel" aria-labelledby="tabOriginal">
+
     <div class="title">Energia wiązania – dwa atomy</div>
     <div class="subtitle">Powolna zmiana odległości: zaniedbujemy zmianę energii kinetycznej, więc <span class="mono">ΔU = W<sub>zewn</sub></span>.</div>
 
@@ -215,6 +303,121 @@
         <div class="sliderLegend">bezbarwne: brak oddziaływania<br>zielone: przyciąganie<br>niebieskie: równowaga<br>czerwone: odpychanie</div>
       </div>
     </div>
+
+</section>
+<section id="pageEnergy" class="motionPage" role="tabpanel" aria-labelledby="tabEnergy" hidden>
+  <div class="title">Ruch atomów i energia wiązania</div>
+  <div class="subtitle">Teraz nie ustawiamy już odległości ręcznie. Przygotowujemy energię E i puszczamy układ: <b>E = Eₖ + U(r)</b>. Krzywa potencjału jest tu gładkim przybliżeniem oddziaływania z pierwszej karty.</div>
+  <div class="motionLayout">
+    <div class="motionColumn">
+      <div class="panel">
+        <h3>Zmiana odległości między atomami</h3>
+        <canvas class="motionCanvas" id="motionScene" width="1060" height="210" aria-label="Dwa atomy: umownie nieruchomy atom odniesienia i poruszający się drugi atom"></canvas>
+        <div class="motionCaption">Jeden atom jest umownie unieruchomiony na rysunku. Obserwujemy zmianę <b>odległości r</b> między składnikami, a nie ruch środka masy.</div>
+      </div>
+      <div class="panel">
+        <div class="motionGraphTitle">Jedna studnia potencjału, trzy energie na tym samym wykresie</div>
+        <canvas class="motionCanvas" id="motionGraph" width="1060" height="410" aria-label="Wykres U(r), pozioma energia całkowita E i pionowe odcinki energii kinetycznej oraz potencjalnej"></canvas>
+        <div class="motionFooter">
+          <span><span class="motionSwatch" style="background:#245fbf"></span>U(r)</span>
+          <span><span class="motionSwatch" style="background:#c45548"></span>U: od poziomu zero</span>
+          <span><span class="motionSwatch" style="background:#26804d"></span>Eₖ: od U do E</span>
+          <span><span class="motionSwatch" style="background:#cf842f"></span>E: stała podczas ruchu</span>
+        </div>
+        <p class="motionCaption">Czerwona kropka wskazuje aktualne r na <b>wykresie energii</b>. Atom porusza się wzdłuż prostej na górnym rysunku, a nie po krzywej wykresu.</p>
+      </div>
+    </div>
+    <div class="motionTools">
+      <div class="panel">
+        <h3>Wybierz energię całkowitą</h3>
+        <div class="motionEnergyNow" id="energyValue">−0,55 j.u.</div>
+        <input class="motionEnergyInput" id="energyControl" type="range" min="-0.98" max="0.70" value="-0.55" step="0.01" aria-label="Energia całkowita układu" />
+        <div class="motionEnergyEnds"><span>−0,98</span><span>+0,70</span></div>
+        <p class="motionSmall" style="margin:7px 0 8px">Przesuń suwak albo <b>przeciągnij pomarańczową linię E</b> na wykresie. Zmiana energii przygotowuje nowy ruch; podczas niego E pozostaje stała.</p>
+        <div class="motionPresets">
+          <button type="button" class="motionButton" data-set-energy="-0.85">E = −0,85</button>
+          <button type="button" class="motionButton" data-set-energy="-0.35">E = −0,35</button>
+          <button type="button" class="motionButton" data-set-energy="0">Próg E = 0</button>
+          <button type="button" class="motionButton" data-set-energy="0.25">E = +0,25</button>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Ruch atomu</h3>
+        <div class="motionControlsRow">
+          <button type="button" class="motionButton primary" id="motionPlay">▶ Start</button>
+          <button type="button" class="motionButton" id="motionStep">Krok</button>
+          <button type="button" class="motionButton" id="motionRestart">Od nowa</button>
+        </div>
+        <p class="motionSmall" style="margin:9px 0 0">Początek: wewnętrzny punkt zwrotny (Eₖ = 0). Zwiększając E, porównuj rozpiętość ruchu.</p>
+        <div class="motionMetrics" style="margin-top:8px">
+          <div class="motionMetric potential"><span>U(r) — potencjalna</span><strong id="metricPotential">−0,55</strong></div>
+          <div class="motionMetric kinetic"><span>Eₖ — kinetyczna</span><strong id="metricKinetic">+0,00</strong></div>
+          <div class="motionMetric total"><span>E — suma</span><strong id="metricTotal">−0,55</strong></div>
+          <div class="motionMetric binding"><span>Do rozdzielenia</span><strong id="metricBinding">+0,55</strong></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="motionState" id="motionState">Układ związany</div>
+        <div class="motionExplanation" id="motionExplanation">Gdy energia całkowita jest ujemna, atom porusza się między dwoma punktami zwrotnymi.</div>
+        <p class="motionSmall" style="margin-top:9px">Poziom <b>U(∞) = 0</b> jest granicą rozdzielenia. Dla E &lt; 0 występują dwa punkty zwrotne. Dla E &gt; 0 możliwa jest ucieczka do dużych odległości. E = 0 jest przypadkiem granicznym.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="pageQuantum" class="quantumPage" role="tabpanel" aria-labelledby="tabQuantum" hidden>
+  <div class="title">Kwantowe poziomy energii — bez klasycznej trajektorii</div>
+  <div class="subtitle">Studnia potencjału jest taka sama jak na karcie 2. W mechanice kwantowej <b>nie każda energia drgania jest dozwolona</b>.
+    Zamiast rysować ruch kulki, wybieramy stany energetyczne i obserwujemy ich zmiany.</div>
+  <div class="quantumLayout">
+    <div class="quantumColumn">
+      <div class="panel">
+        <h3>Dozwolone energie drgań w studni potencjału U(r)</h3>
+        <canvas id="quantumGraph" class="quantumCanvas" width="1100" height="565"
+          role="img" aria-label="Studnia potencjału i dyskretne poziomy drganiowe. Poziomy są wybieralne także za pomocą przycisków z prawej strony."></canvas>
+        <div class="quantumLegend">
+          <span><span class="motionSwatch" style="background:#245fbf"></span>studnia U(r)</span>
+          <span><span class="motionSwatch" style="background:#9eabc0"></span>dozwolone poziomy Eₙ</span>
+          <span><span class="motionSwatch" style="background:#245fbf"></span>aktualny poziom</span>
+          <span><span class="motionSwatch" style="background:#19845e"></span>zmiana poziomu</span>
+        </div>
+        <p class="quantumPanelNote"><b>Kliknij poziom na wykresie</b> lub użyj przycisków po prawej. Strzałka pokazuje zmianę <b>energii</b>, nie tor atomu, nie czas trwania przejścia i nie lot fotonu. Długości kresek są schematyczne — nie ograniczają przestrzennie kwantowego stanu.</p>
+      </div>
+      <div class="quantumNonRad">
+        <strong>Jak dochodzi do zmiany poziomu?</strong> Przez wymianę energii z otoczeniem — np. podczas <b>zderzenia</b> w gazie albo dzięki sprzężeniu z ruchami innych składników w cieczy i ciele stałym.
+        Emisja lub absorpcja <b>fotonu</b> jest inną możliwością, jeśli dane przejście radiacyjne jest dozwolone. Nie towarzyszy automatycznie każdej zmianie poziomu.
+      </div>
+    </div>
+    <div class="quantumTools">
+      <div class="panel">
+        <h3>Wybierz poziom energii</h3>
+        <div class="quantumBadge" id="quantumStateName">Stan podstawowy</div>
+        <div class="quantumSelected" id="quantumSelectedLevel">n = 0</div>
+        <div class="quantumNumber" id="quantumSelectedEnergy">E₀ = −0,87 j.u.</div>
+        <div class="quantumControlsRow">
+          <button class="quantumButton" id="quantumDown" type="button">↓ Oddaj energię</button>
+          <button class="quantumButton" id="quantumUp" type="button">↑ Pobierz energię</button>
+          <button class="quantumButton" id="quantumGround" type="button">Stan podstawowy</button>
+        </div>
+        <p class="quantumSubtle">Strzałki zmieniają poziom o jeden; przyciski poniżej pozwalają wybrać dowolny poziom.</p>
+        <div class="quantumLevels" id="quantumLevels" aria-label="Poziomy energii"></div>
+      </div>
+      <div class="panel" aria-live="polite">
+        <h3>Bilans zmiany energii</h3>
+        <div id="quantumExchange" class="quantumExchange">Wybierz inny poziom. Zobaczysz, ile energii układ pobiera z otoczenia albo ile mu oddaje.</div>
+        <p class="quantumSubtle" style="margin-top:7px">ΔE = E<sub>końcowa</sub> − E<sub>początkowa</sub>. Nie zakładamy konkretnego mechanizmu przejścia.</p>
+      </div>
+      <div class="panel">
+        <h3>Energia wiązania i próg E = 0</h3>
+        <div class="quantumMetric"><span>Głębokość studni Dₑ</span><strong>1,00 j.u.</strong></div>
+        <div class="quantumMetric"><span>Najniższy poziom E₀</span><strong id="quantumE0">−0,87 j.u.</strong></div>
+        <div class="quantumMetric"><span>Od n = 0 do rozdzielenia</span><strong id="quantumD0">+0,87 j.u.</strong></div>
+        <div class="quantumMetric"><span>Od wybranego n do E = 0</span><strong id="quantumBinding">+0,87 j.u.</strong></div>
+        <p class="quantumSubtle" style="margin-top:8px">Najniższa dozwolona energia leży <b>powyżej dna studni</b>. Nad progiem E = 0 pojawia się <b>kontinuum stanów niezwiązanych</b>, a nie kolejna seria poziomów drganiowych.</p>
+      </div>
+    </div>
+  </div>
+  <p class="quantumPanelNote" style="margin-top:12px">Model jakościowy jednej związanej pary; energie poziomów obliczone dla tej samej gładkiej studni typu Morse’a co na karcie 2, w dobranej skali kwantowej. Zderzenia i inne oddziaływania są tu przyczyną możliwej wymiany energii z otoczeniem, nie dodatkową animacją ruchu.</p>
+</section>
   </div>
 
 <script>
@@ -600,6 +803,459 @@
   updateSliderZoneAlignment();
   render();
 })();
+
+
+// Druga karta: stała energia wybranego klasycznego ruchu względnego.
+// Potencjał gładki, asymetryczny; skala umowna. Nie jest to model kwantowy.
+(() => {
+  'use strict';
+  const cScene = document.getElementById('motionScene');
+  const cGraph = document.getElementById('motionGraph');
+  const s = cScene.getContext('2d');
+  const g = cGraph.getContext('2d');
+  const page1 = document.getElementById('pageOriginal');
+  const page2 = document.getElementById('pageEnergy');
+  const page3 = document.getElementById('pageQuantum');
+  const b1 = document.getElementById('tabOriginal');
+  const b2 = document.getElementById('tabEnergy');
+  const b3 = document.getElementById('tabQuantum');
+  const slider = document.getElementById('energyControl');
+  const bPlay = document.getElementById('motionPlay');
+  const bStep = document.getElementById('motionStep');
+  const bRestart = document.getElementById('motionRestart');
+  const $ = id => document.getElementById(id);
+  const plot = {left:85,right:1029,top:31,bottom:365,rMin:0.78,rMax:2.76,eMin:-1.14,eMax:0.86};
+  const model = {D:1,r0:1.08,a:3.5,mu:1};
+  const cutoffDisplay = plot.rMax;
+  const N = 1150;
+  let E=-0.55, route=null, clock=0, playing=false, wasEscaped=false, lastFrame=null;
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const signed=v=>(v<0?'−':v>0?'+':'')+Math.abs(v).toFixed(2).replace('.',',');
+  const fmt=v=>Number(v).toFixed(2).replace('.',',');
+  const potential = r => {const p=Math.exp(-model.a*(r-model.r0));return model.D*(p*p-2*p);};
+  const derivative = r => {const p=Math.exp(-model.a*(r-model.r0));return 2*model.D*model.a*p*(1-p);};
+  const innerTurning = energy => model.r0-Math.log(1+Math.sqrt(1+energy/model.D))/model.a;
+  const outerTurning = energy => model.r0-Math.log(1-Math.sqrt(1+energy/model.D))/model.a;
+  const xFromR = r => plot.left+(r-plot.rMin)/(plot.rMax-plot.rMin)*(plot.right-plot.left);
+  const yFromE = en => plot.bottom-(en-plot.eMin)/(plot.eMax-plot.eMin)*(plot.bottom-plot.top);
+
+  function buildRoute(energy) {
+    const bound=energy<0;
+    const lo=innerTurning(energy);
+    const hi=bound?outerTurning(energy):cutoffDisplay;
+    const times=[0],rs=[lo];
+    let tt=0;
+    for (let k=0;k<N;k++) {
+      const theta=(k+0.5)*Math.PI/N;
+      const r=lo+(hi-lo)*0.5*(1-Math.cos(theta));
+      const dr=(hi-lo)*0.5*Math.sin(theta);
+      const delta=Math.max(energy-potential(r),1e-14);
+      const v=Math.sqrt(2*delta/model.mu);
+      tt+=dr/v*(Math.PI/N);
+      const at=(k+1)*Math.PI/N;
+      rs.push(lo+(hi-lo)*0.5*(1-Math.cos(at)));
+      times.push(tt);
+    }
+    return {bound,lo,hi,rs,times,tOneWay:tt};
+  }
+  function interpolateR(t) {
+    if(t<=0)return route.lo;
+    const tMax=route.tOneWay;
+    if(t>=tMax)return route.hi;
+    let lo=0,hi=route.times.length-1;
+    while(hi-lo>1){const mid=(lo+hi)>>1;if(route.times[mid]<t)lo=mid;else hi=mid;}
+    const fraction=(t-route.times[lo])/(route.times[hi]-route.times[lo]);
+    return route.rs[lo]+(route.rs[hi]-route.rs[lo])*fraction;
+  }
+  function getMotionState() {
+    if(route.bound){
+      const half=route.tOneWay;
+      const phase=clock%(2*half);
+      return {r:interpolateR(phase<=half?phase:2*half-phase),dir:phase<=half?1:-1,finished:false};
+    }
+    if(clock>=route.tOneWay)return {r:route.hi,dir:0,finished:true};
+    return {r:interpolateR(clock),dir:1,finished:false};
+  }
+  function resetMotion(newEnergy,keepRunning=false) {
+    E=Number(newEnergy);
+    route=buildRoute(E);
+    clock=0;wasEscaped=false;playing=keepRunning;lastFrame=null;
+    slider.value=E.toFixed(2);
+    $('energyValue').textContent=signed(E)+' j.u.';
+    bPlay.textContent=playing?'Ⅱ Pauza':'▶ Start';
+    bStep.disabled=playing;
+    for(const preset of document.querySelectorAll('[data-set-energy]')){
+      preset.classList.toggle('active',Math.abs(Number(preset.dataset.setEnergy)-E)<0.0001);
+    }
+    render();
+  }
+  function line(c,x1,y1,x2,y2,color,width=2,dash=[]) {
+    c.save();c.strokeStyle=color;c.lineWidth=width;c.setLineDash(dash);
+    c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.stroke();c.restore();
+  }
+  function text(c,string,x,y,color='#334155',size=15,weight='500',align='left') {
+    c.save();c.fillStyle=color;c.font=weight+' '+size+'px Arial';c.textAlign=align;c.fillText(string,x,y);c.restore();
+  }
+  function ball(c,x,y,r,fill,label){
+    c.save();c.fillStyle=fill;c.strokeStyle='#354052';c.lineWidth=1.6;
+    c.beginPath();c.arc(x,y,r,0,2*Math.PI);c.fill();c.stroke();
+    c.fillStyle='rgba(255,255,255,.45)';c.beginPath();c.arc(x-r*.25,y-r*.24,r*.24,0,2*Math.PI);c.fill();c.restore();
+    text(c,label,x,y+r+21,'#475569',14,'500','center');
+  }
+  function verticalBrace(c,x,yStart,yEnd,color,width=5){
+    line(c,x,yStart,x,yEnd,color,width);
+    line(c,x-5,yStart,x+5,yStart,color,1.5);
+    line(c,x-5,yEnd,x+5,yEnd,color,1.5);
+  }
+  function drawScene(state){
+    const w=cScene.width,h=cScene.height;
+    s.clearRect(0,0,w,h);s.fillStyle='#fff';s.fillRect(0,0,w,h);
+    const at=170,y=105,scale=258;
+    const moving=at+state.r*scale;
+    line(s,44,y,w-32,y,'#c8cdd5',2);
+    text(s,'Ruch względem lewego atomu',29,29,'#344256',20,'700');
+    text(s,'Ustalony punkt odniesienia',at,64,'#66758b',14,'500','center');
+    ball(s,at,y,18,'#cdd8e9','atom 1');
+    ball(s,moving,y,18,'#9fc3ef','atom 2');
+    line(s,at,y+53,moving,y+53,'#84909d',1.7,[6,5]);
+    text(s,'r',0.5*(at+moving),y+76,'#334155',17,'700','center');
+    if(state.dir!==0 && clock>0.015){
+      const dx=state.dir*38;
+      line(s,moving,y-39,moving+dx,y-39,'#23804d',3);
+      const sign=Math.sign(dx);
+      line(s,moving+dx-sign*9,y-46,moving+dx,y-39,'#23804d',3);
+      line(s,moving+dx-sign*9,y-32,moving+dx,y-39,'#23804d',3);
+      text(s,state.dir>0?'oddalanie':'zbliżanie',moving,y-52,'#23804d',14,'700','center');
+    }
+    if(state.finished){text(s,'Atom wyszedł poza prezentowany zakres odległości.',w/2,29,'#b85e1e',14,'700','center');}
+  }
+  function drawGraph(state) {
+    const w=cGraph.width,h=cGraph.height;
+    g.clearRect(0,0,w,h);g.fillStyle='#fff';g.fillRect(0,0,w,h);
+    const zeroY=yFromE(0),energyY=yFromE(E);
+    // Obszar E<0 stanów związanych i E>0 stanów niezwiązanych jest tylko tłem legendy.
+    g.fillStyle='rgba(50,111,237,.025)';g.fillRect(plot.left,zeroY,plot.right-plot.left,plot.bottom-zeroY);
+    line(g,plot.left,plot.top,plot.left,plot.bottom,'#596473',1.5);
+    line(g,plot.left,plot.bottom,plot.right,plot.bottom,'#596473',1.5);
+    line(g,plot.left,zeroY,plot.right,zeroY,'#64748b',1.3,[5,6]);
+    text(g,'U(∞) = 0 — próg rozdzielenia',plot.left+10,zeroY-9,'#48596a',13,'600');
+    const eqX=xFromR(model.r0);
+    line(g,eqX,plot.top,eqX,plot.bottom,'#b5c6e2',1,[4,6]);
+    text(g,'r₀',eqX+5,plot.bottom-9,'#3869a6',14,'700');
+    // Krzywa potencjału, przycięta do ramki rysunku (bardzo krótkie r dają ogromne U).
+    g.save();g.beginPath();g.rect(plot.left,plot.top,plot.right-plot.left,plot.bottom-plot.top);g.clip();
+    g.beginPath();
+    for(let j=0;j<=750;j++){
+      const r=plot.rMin+(plot.rMax-plot.rMin)*j/750;
+      const xx=xFromR(r),yy=yFromE(potential(r));
+      if(j===0)g.moveTo(xx,yy);else g.lineTo(xx,yy);
+    }
+    g.strokeStyle='#245fbf';g.lineWidth=3.5;g.stroke();
+    // Linia energii całkowitej pozostaje stała podczas pojedynczego biegu.
+    line(g,plot.left,energyY,plot.right,energyY,'#cf842f',2.8);
+    const rx=xFromR(state.r);
+    const Ur=potential(state.r),uy=yFromE(Ur),Ek=Math.max(0,E-Ur);
+    // Energia potencjalna to signed wysokość względem 0, a energia kinetyczna jest dodatnia.
+    verticalBrace(g,rx-18,zeroY,uy,'#c45548',4.4);
+    verticalBrace(g,rx+18,uy,energyY,'#26804d',5.4);
+    g.beginPath();g.arc(rx,uy,6.6,0,Math.PI*2);g.fillStyle='#e44d50';g.fill();g.strokeStyle='#fff';g.lineWidth=1.2;g.stroke();
+    // Znaczniki dopuszczalnego zakresu r dla E<0.
+    const xxLow=xFromR(route.lo);
+    line(g,xxLow,energyY-5,xxLow,energyY+5,'#a05b19',2);
+    if(route.bound){const xxHi=xFromR(route.hi);line(g,xxHi,energyY-5,xxHi,energyY+5,'#a05b19',2);}
+    g.restore();
+    text(g,'E = '+signed(E),plot.right-7,Math.max(plot.top+18,energyY-9),'#ab5e19',17,'700','right');
+    text(g,'odległość r',0.5*(plot.left+plot.right),h-13,'#334155',16,'700','center');
+    text(g,'mała',plot.left+4,h-28,'#697686',13,'500');
+    text(g,'duża',plot.right-2,h-28,'#697686',13,'500','right');
+    g.save();g.translate(27,0.5*(plot.top+plot.bottom));g.rotate(-Math.PI/2);
+    text(g,'energia',0,0,'#334155',16,'600','center');g.restore();
+    $('metricPotential').textContent=signed(Ur);
+    $('metricKinetic').textContent='+'+fmt(Ek);
+    $('metricTotal').textContent=signed(E);
+    $('metricBinding').textContent=E<0?'+'+fmt(-E):E===0?'0,00':'—';
+  }
+  function render(){
+    if(!route)return;
+    const state=getMotionState();
+    if(state.finished){playing=false;wasEscaped=true;bPlay.textContent='▶ Start';bStep.disabled=true;}
+    drawScene(state);drawGraph(state);
+    const ek=Math.max(0,E-potential(state.r));
+    if(E<0){
+      $('motionState').textContent='Stan związany — E < 0';
+      $('motionExplanation').textContent='Atom wraca między dwoma punktami zwrotnymi. Przy Eₖ = 0 zawraca, a gdy U maleje, Eₖ rośnie. Do rozdzielenia trzeba dostarczyć jeszcze '+fmt(-E)+' j.u. energii.';
+    }else if(E===0){
+      $('motionState').textContent='Próg rozdzielenia — E = 0';
+      $('motionExplanation').textContent=state.finished?'To przypadek graniczny: atom wciąż może się oddalać, coraz wolniej. W modelu osiągnięcie nieskończonej odległości trwa nieskończenie długo.':'Suma energii wynosi zero. Przy oddalaniu U dąży do zera od dołu, a Eₖ także dąży do zera.';
+    }else{
+      $('motionState').textContent='Ruch niezwiązany — E > 0';
+      $('motionExplanation').textContent=state.finished?'Atom wyszedł poza zakres wykresu, bez punktu zwrotnego po prawej. Energia wystarcza do trwałego rozdzielenia.':'Energia całkowita przekracza próg rozdzielenia. Po oddaleniu się atom zachowa dodatnią energię kinetyczną; nie ma prawego punktu zwrotnego.';
+    }
+    if(Math.abs(ek)<0.001&&clock>0&&route.bound){
+      // Oddzielne rozpoznanie punktu zwrotnego już pokazują słupki i ruch.
+    }
+  }
+  function togglePlay(){
+    if(wasEscaped){resetMotion(E,false);}
+    playing=!playing;bPlay.textContent=playing?'Ⅱ Pauza':'▶ Start';bStep.disabled=playing;
+    lastFrame=null;render();
+  }
+  // Bezpośrednie przeciąganie pomarańczowej linii E (mysz lub dotyk).
+  let draggingEnergy=false;
+  function canvasPointerY(event){
+    const box=cGraph.getBoundingClientRect();
+    return (event.clientY-box.top)*cGraph.height/box.height;
+  }
+  function energyFromPointer(event){
+    const yy=canvasPointerY(event);
+    const en=plot.eMin+(plot.bottom-yy)/(plot.bottom-plot.top)*(plot.eMax-plot.eMin);
+    return Math.round(clamp(en,-0.98,0.70)*100)/100;
+  }
+  cGraph.style.touchAction='none';
+  cGraph.addEventListener('pointerdown',event=>{
+    if(page2.hidden)return;
+    if(Math.abs(canvasPointerY(event)-yFromE(E))<=19){
+      draggingEnergy=true;
+      cGraph.setPointerCapture(event.pointerId);
+      cGraph.style.cursor='grabbing';
+      event.preventDefault();
+    }
+  });
+  cGraph.addEventListener('pointermove',event=>{
+    if(draggingEnergy){
+      const newE=energyFromPointer(event);
+      if(newE!==E)resetMotion(newE,false);
+      cGraph.style.cursor='grabbing';
+      return;
+    }
+    cGraph.style.cursor=Math.abs(canvasPointerY(event)-yFromE(E))<=19?'grab':'default';
+  });
+  function stopDragging(event){
+    if(draggingEnergy){
+      draggingEnergy=false;
+      try{cGraph.releasePointerCapture(event.pointerId);}catch(_error){}
+      cGraph.style.cursor='default';
+    }
+  }
+  cGraph.addEventListener('pointerup',stopDragging);
+  cGraph.addEventListener('pointercancel',stopDragging);
+  bPlay.addEventListener('click',togglePlay);
+  bStep.addEventListener('click',()=>{
+    if(playing||wasEscaped)return;
+    clock=Math.min(clock+0.12,route.bound?clock+0.12:route.tOneWay);
+    render();
+  });
+  bRestart.addEventListener('click',()=>resetMotion(E,false));
+  slider.addEventListener('input',()=>resetMotion(Number(slider.value),playing));
+  for(const el of document.querySelectorAll('[data-set-energy]')){
+    el.addEventListener('click',()=>resetMotion(Number(el.dataset.setEnergy),playing));
+  }
+  function activate(which){
+    const first=which===1, second=which===2, third=which===3;
+    page1.hidden=!first;page2.hidden=!second;page3.hidden=!third;
+    b1.setAttribute('aria-selected',first?'true':'false');
+    b2.setAttribute('aria-selected',second?'true':'false');
+    b3.setAttribute('aria-selected',third?'true':'false');
+    // Animacja klasyczna zatrzymuje się po opuszczeniu karty 2.
+    if(!second){playing=false;bPlay.textContent='▶ Start';bStep.disabled=false;}
+    if(first){window.dispatchEvent(new Event('resize'));}
+    if(second){lastFrame=null;render();}
+    if(third && window.redrawQuantumPanel){window.redrawQuantumPanel();}
+  }
+  b1.addEventListener('click',()=>activate(1));
+  b2.addEventListener('click',()=>activate(2));
+  b3.addEventListener('click',()=>activate(3));
+  b1.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();activate(2);b2.focus();}});
+  b2.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft'){e.preventDefault();activate(1);b1.focus();}
+    if(e.key==='ArrowRight'){e.preventDefault();activate(3);b3.focus();}
+  });
+  b3.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();activate(2);b2.focus();}});
+  function tick(ts){
+    if(lastFrame===null)lastFrame=ts;
+    const dt=Math.min((ts-lastFrame)/1000,0.06);
+    lastFrame=ts;
+    if(playing&&!page2.hidden){
+      clock+=dt*1.15;
+      render();
+    }
+    requestAnimationFrame(tick);
+  }
+  resetMotion(E,false);
+  requestAnimationFrame(tick);
+})();
+
+
+// Trzecia karta: stany kwantowe, bez kulki, trajektorii ani automatycznych fotonów.
+// Potencjał typu Morse'a i jego analityczne energie: E_n = -D[1-(n+1/2)/lambda]^2.
+// Model: jedno wzbudzane drganie względne związanej pary, skala jednostek umowna.
+(() => {
+  'use strict';
+  const canvas=document.getElementById('quantumGraph');
+  const ctx=canvas.getContext('2d');
+  const $=id=>document.getElementById(id);
+  const qm={D:1,r0:1.08,a:3.5,mu:1,lambda:7.4};
+  const hbarEffective=Math.sqrt(2*qm.mu*qm.D)/(qm.a*qm.lambda);
+  const plot={left:95,right:1065,top:30,bottom:513,rMin:0.75,rMax:2.88,eMin:-1.14,eMax:0.31};
+  const quantumPotential=r=>{const t=Math.exp(-qm.a*(r-qm.r0));return qm.D*(t*t-2*t);};
+  const energies=[];
+  for(let n=0;n+0.5<qm.lambda;n++) {
+    // Zgodne z rozwiązaniem dla potencjału Morse'a o dobranym efektywnym hbar.
+    energies.push(-qm.D*Math.pow(1-(n+0.5)/qm.lambda,2));
+  }
+  const groundEnergy=energies[0];
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const fmt=v=>(v<0?'−':v>0?'+':'')+Math.abs(v).toFixed(3).replace('.',',');
+  const xx=r=>plot.left+(r-plot.rMin)/(plot.rMax-plot.rMin)*(plot.right-plot.left);
+  const yy=e=>plot.bottom-(e-plot.eMin)/(plot.eMax-plot.eMin)*(plot.bottom-plot.top);
+  const crossingLeft=en=>qm.r0-Math.log(1+Math.sqrt(1+en/qm.D))/qm.a;
+  const crossingRight=en=>qm.r0-Math.log(1-Math.sqrt(1+en/qm.D))/qm.a;
+  const getBounds=en=>({a:Math.max(xx(plot.rMin),xx(crossingLeft(en))),b:Math.min(xx(plot.rMax),xx(crossingRight(en)))});
+  let current=0,previous=null,lastChange=null;
+  const canvasWidth=canvas.width,canvasHeight=canvas.height;
+  
+  function line(x1,y1,x2,y2,color,width=2,dash=[]){
+    ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash);
+    ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.restore();
+  }
+  function text(s,x,y,color='#35465a',size=15,bold=false,align='left'){
+    ctx.save();ctx.font=(bold?'700 ':'500 ')+size+'px Arial';ctx.fillStyle=color;
+    ctx.textAlign=align;ctx.fillText(s,x,y);ctx.restore();
+  }
+  function arrow(x,y1,y2,color){
+    line(x,y1,x,y2,color,4.2);
+    const sign=Math.sign(y2-y1),head=11;
+    line(x-7,y2-head*sign,x,y2,color,3.2);
+    line(x+7,y2-head*sign,x,y2,color,3.2);
+  }
+  function renderGraph(){
+    ctx.clearRect(0,0,canvasWidth,canvasHeight);
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,canvasWidth,canvasHeight);
+    const zero=yy(0);
+    ctx.fillStyle='#fff9ec';ctx.fillRect(plot.left,plot.top,plot.right-plot.left,zero-plot.top);
+    text('E > 0 — kontinuum stanów niezwiązanych',plot.right-12,plot.top+23,'#8c6932',16,true,'right');
+    line(plot.left,plot.top,plot.left,plot.bottom,'#6b7280',1.5);
+    line(plot.left,plot.bottom,plot.right,plot.bottom,'#6b7280',1.5);
+    line(plot.left,zero,plot.right,zero,'#b07337',1.6,[7,5]);
+    text('E = 0 — próg rozdzielenia',plot.left+11,zero-10,'#935f2b',15,true);
+    // Wykres identycznego potencjału, co na karcie klasycznej nr 2.
+    ctx.save();ctx.beginPath();ctx.rect(plot.left,plot.top,plot.right-plot.left,plot.bottom-plot.top);ctx.clip();
+    ctx.beginPath();
+    for(let i=0;i<=1000;i++){
+      const r=plot.rMin+(plot.rMax-plot.rMin)*i/1000;
+      const y=yy(quantumPotential(r));
+      if(i===0)ctx.moveTo(xx(r),y);else ctx.lineTo(xx(r),y);
+    }
+    ctx.strokeStyle='#245fbf';ctx.lineWidth=3.2;ctx.stroke();
+    ctx.restore();
+    // Poziomy energii nie są torami cząstek ani ścisłymi granicami lokalizacji.
+    energies.forEach((en,n)=>{
+      const bounds=getBounds(en),y=yy(en);
+      const isCurrent=n===current,isPrevious=n===previous;
+      line(bounds.a,y,bounds.b,y,isCurrent?'#1557d3':isPrevious?'#bc9066':'#879bb4',isCurrent?6:isPrevious?3.8:2.9);
+      if(isCurrent){
+        ctx.fillStyle='#1557d3';ctx.beginPath();ctx.arc(bounds.a,y,4,0,Math.PI*2);ctx.fill();
+      }
+      const labelX=Math.min(bounds.b+13,plot.right-47);
+      text('n='+n,labelX,y+(n===energies.length-1?14:-7),isCurrent?'#1557d3':'#556478',isCurrent?15:13,isCurrent);
+    });
+    // Wybrana zmiana stanu: pionowa strzałka przedstawia wyłącznie różnicę energii.
+    if(previous!==null && previous!==current){
+      const x=plot.right-104,oldY=yy(energies[previous]),newY=yy(energies[current]);
+      arrow(x,oldY,newY,'#16865b');
+      line(x-9,oldY,x+9,oldY,'#16865b',1.6);
+      line(x-9,newY,x+9,newY,'#16865b',1.6);
+      const delta=energies[current]-energies[previous];
+      const labelY=clamp((oldY+newY)/2-13,plot.top+55,plot.bottom-15);
+      const label='ΔE = '+fmt(delta);
+      ctx.save();ctx.font='700 15px Arial';const width=ctx.measureText(label).width;ctx.fillStyle='rgba(255,255,255,.95)';
+      ctx.fillRect(x-width-25,labelY-15,width+12,23);ctx.restore();
+      text(label,x-17,labelY+1,'#11714e',15,true,'right');
+    }
+    // Energia wiązania liczona od wybranego poziomu do progu.
+    const bindX=plot.right-21,currentY=yy(energies[current]);
+    line(bindX,zero,bindX,currentY,'#a77b2b',2.3);
+    line(bindX-5,zero,bindX+5,zero,'#a77b2b',1.8);
+    line(bindX-5,currentY,bindX+5,currentY,'#a77b2b',1.8);
+    text('U(r)',xx(1.81),yy(quantumPotential(1.81))-12,'#245fbf',15,true);
+    text('energia',plot.left-42,(plot.top+plot.bottom)/2,'#43566c',15,true,'center');
+    text('odległość r',0.5*(plot.left+plot.right),canvasHeight-14,'#3c4d61',16,true,'center');
+    text('mała',plot.left+5,plot.bottom+19,'#758195',12);
+    text('duża',plot.right-4,plot.bottom+19,'#758195',12,false,'right');
+    text('Minimum: U = −1,00',plot.left+11,plot.bottom-12,'#56647a',13);
+  }
+  function renderText(){
+    $('quantumStateName').textContent=current===0?'Stan podstawowy':'Stan wzbudzony';
+    $('quantumSelectedLevel').textContent='n = '+current;
+    $('quantumSelectedEnergy').textContent='E'+toSubscript(current)+' = '+fmt(energies[current])+' j.u.';
+    $('quantumE0').textContent=fmt(groundEnergy)+' j.u.';
+    $('quantumD0').textContent='+'+Math.abs(groundEnergy).toFixed(3).replace('.',',')+' j.u.';
+    $('quantumBinding').textContent='+'+Math.abs(energies[current]).toFixed(3).replace('.',',')+' j.u.';
+    $('quantumDown').disabled=current===0;
+    $('quantumUp').disabled=current===energies.length-1;
+    $('quantumGround').disabled=current===0;
+    for(const b of document.querySelectorAll('[data-quantum-n]')){
+      const n=Number(b.dataset.quantumN);
+      b.classList.toggle('current',n===current);
+      b.classList.toggle('previous',n===previous);
+      b.setAttribute('aria-pressed',n===current?'true':'false');
+    }
+    const result=$('quantumExchange');
+    if(previous===null){
+      result.textContent='Jesteśmy w stanie n = 0. Wybierz wyższy poziom; zmiana energii wymaga jej pobrania z otoczenia.';
+    }else if(previous===current){
+      result.textContent='Wybrano ten sam poziom. Energia nie uległa zmianie.';
+    }else{
+      const delta=energies[current]-energies[previous];
+      const from='n = '+previous+', E = '+fmt(energies[previous]);
+      const to='n = '+current+', E = '+fmt(energies[current]);
+      const process=delta>0?'Układ POBRAŁ z otoczenia':'Układ ODDAŁ otoczeniu';
+      const amount=Math.abs(delta).toFixed(3).replace('.',',');
+      result.textContent=from+' → '+to+'. ΔE = '+fmt(delta)+' j.u. '+process+' '+amount+' j.u. energii. Przykład: zderzenie lub sprzężenie z innymi ruchami; foton nie jest konieczny.';
+    }
+  }
+  function toSubscript(n){return String(n).split('').map(d=>'₀₁₂₃₄₅₆₇₈₉'[Number(d)]).join('');}
+  function changeLevel(next){
+    const n=clamp(Number(next),0,energies.length-1);
+    if(n===current)return;
+    previous=current;current=n;
+    renderGraph();renderText();
+  }
+  $('quantumDown').addEventListener('click',()=>changeLevel(current-1));
+  $('quantumUp').addEventListener('click',()=>changeLevel(current+1));
+  $('quantumGround').addEventListener('click',()=>changeLevel(0));
+  const selector=$('quantumLevels');
+  energies.forEach((e,n)=>{
+    const b=document.createElement('button');b.type='button';b.className='quantumLevelButton';
+    b.dataset.quantumN=String(n);b.textContent='n = '+n+'  ('+fmt(e)+')';
+    b.setAttribute('aria-label','Wybierz kwantowy poziom n równe '+n+'; energia '+fmt(e)+' jednostek umownych');
+    b.addEventListener('click',()=>changeLevel(n));selector.appendChild(b);
+  });
+  canvas.addEventListener('click',ev=>{
+    if($('pageQuantum').hidden)return;
+    const rect=canvas.getBoundingClientRect();
+    const x=(ev.clientX-rect.left)*canvasWidth/rect.width;
+    const y=(ev.clientY-rect.top)*canvasHeight/rect.height;
+    // Punkt należy do pasma poziomu, nie do linii punktu zerowego.
+    const distances=energies.map((en,n)=>{
+      const bounds=getBounds(en);
+      const ydistance=Math.abs(y-yy(en));
+      const xdistance=x<bounds.a-12?bounds.a-12-x:x>bounds.b+42?x-(bounds.b+42):0;
+      return {n,ydistance,xdistance,metric:ydistance+0.75*xdistance};
+    });
+    distances.sort((a,b)=>a.metric-b.metric);
+    const hit=distances[0];
+    if(hit.ydistance<14 && hit.xdistance<33)changeLevel(hit.n);
+  });
+  // Dzięki przyciskom każdy poziom da się wybrać również na urządzeniu dotykowym i klawiaturą.
+  window.redrawQuantumPanel=renderGraph;
+  renderGraph();renderText();
+  // Udostępniamy tylko do automatycznych testów spójności modelu, bez wpływu na UI.
+  window.quantumModelInfo=()=>({D:qm.D,r0:qm.r0,a:qm.a,lambda:qm.lambda,hbarEffective,
+    energies:energies.slice(),current,previous,E0:groundEnergy,
+    binding:-energies[current],potentialR0:quantumPotential(qm.r0)});
+})();
+
 </script>
 </body>
 </html>
